@@ -14,6 +14,8 @@ async def check_token(request: Request, call_next):
         return await call_next(request)
     
     auth_header = request.headers.get("Authorization")
+    request.state.token = None
+    
     if auth_header and auth_header.startswith("JWT "):
         token = auth_header.split(" ")[1]
         try:

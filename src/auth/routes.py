@@ -118,19 +118,32 @@ async def verify_otp(request: Request, data: OTPVerificationModel, session: Asyn
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
 @auth_router.post("/signup", response_model=User, status_code=status.HTTP_201_CREATED)
-async def create_user(
-    user_data: UserCreateModel, session: AsyncSession = Depends(get_session)
+async def create_user(request: Request, user_data: UserCreateModel, session: AsyncSession = Depends(get_session)
 ):
-    email = user_data.email
+    # token = request.state.token
+    
+    # if token:
+        
+    #     admin_uid = token.get("sub")
+        
+    #     admin = await auth_services.get_user_by_uid(admin_uid, session=session)
+    #     role = admin.is_admin
+        
+    #     if role:
+            email = user_data.email
 
-    user_exists = await auth_services.user_exists(email, session)
+            user_exists = await auth_services.user_exists(email, session)
 
-    if user_exists:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="User with email already exists",
-        )
+            if user_exists:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="User with email already exists",
+                )
 
-    await auth_services.create_user(user_data, session)
+            await auth_services.create_user(user_data, session)
 
-    return Response(content="successful", status_code=201)
+            return Response(content="successful", status_code=201)
+    #     else:
+    #         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='You are not admin')
+    # else:
+    #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)

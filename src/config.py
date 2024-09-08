@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_DAYS: int
     OTP_TOKEN_EXPIRE_MINTUES: int
+    OTP_EXPIRE_TIME_SECONDS: int
     EMAIL_ID: str
     EMAIL_PASSWORD: str
     GOOGLE_API_KEY: str

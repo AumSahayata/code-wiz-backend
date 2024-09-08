@@ -6,11 +6,12 @@ import pyotp
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from .schemas import EmailSchema, TokenData
+from .schemas import EmailSchema
 from fastapi import HTTPException, status
 
 SECRET_KEY = Config.SECRET_KEY
 ALGORITHM = Config.ALGORITHM
+OTP_EXPIRE = Config.OTP_EXPIRE_TIME_SECONDS
 
 
 password_context = CryptContext(
@@ -37,11 +38,11 @@ def create_token(data: dict, token_type: str, exp_delta: timedelta | None = None
     return encoded_jwt
 
 def generate_otp(secret: str):
-    totp = pyotp.TOTP(secret, interval=60)
+    totp = pyotp.TOTP(secret, interval=OTP_EXPIRE)
     return totp.now()
 
 def verify_otp_util(secret: str, otp: str) -> bool:
-    totp = pyotp.TOTP(secret, interval=60)
+    totp = pyotp.TOTP(secret, interval=OTP_EXPIRE)
     return totp.verify(otp)
 
 def send_email(email_data: EmailSchema):

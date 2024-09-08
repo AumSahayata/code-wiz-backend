@@ -18,6 +18,3 @@ class EmailSchema(BaseModel):
 
 class OTPVerificationModel(BaseModel):
     otp: str
-
-class TokenData(BaseModel):
-    uid: str
