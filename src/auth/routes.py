@@ -35,12 +35,12 @@ async def login(user: UserLoginModel, session: AsyncSession = Depends(get_sessio
     email_data = EmailSchema(
         email=user_in_db.email,
         subject="Login OTP for chatbot",
-        body=f"Your login OTP is {otp}.\nThe OTP will expire in 1 minute."
+        body=f"Your login OTP is {otp}.\nThe OTP will expire in 2 minutes."
     )
     
     background_tasks.add_task(send_email, email_data)
     
-    otp_token_expires = timedelta(minutes=Config.OTP_TOKEN_EXPIRE_MINTUES)
+    otp_token_expires = timedelta(minutes=Config.OTP_TOKEN_EXPIRE_MINUTES)
     otp_token = create_token(
         data={"sub": str(user_in_db.uid)},
         token_type="otp",

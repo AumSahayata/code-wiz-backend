@@ -15,7 +15,9 @@ class BotServices:
         
         self.prompt = ChatPromptTemplate.from_template("""
             Answer the questions based on the provided context only.
-            Please provide the most accurate response based on the question.
+            Do not over use the word 'context'
+            Do not say according to context instead use 'According to company policy' 
+            If question is outside of context respond with "Sorry, I cannot help with this question."
             <context>{context}</context>
             Questions: {input}
         """)

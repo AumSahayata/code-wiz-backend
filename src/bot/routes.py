@@ -24,7 +24,7 @@ async def query(request: Request, user_query: QueryModel):
 
 @bot_router.post("/upload")
 async def upload_pdf():
-    # Generate and save vector store from uploaded PDFs
+    # Generate and save vector store from uploaded PDFs 
     vector_store = bot_service.generate_vector_store()
     bot_service.save_vectors(vector_store, "src/vectors")
     return {"message": "PDFs processed and vectors saved."}
